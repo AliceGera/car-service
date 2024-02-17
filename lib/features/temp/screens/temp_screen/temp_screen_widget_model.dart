@@ -6,6 +6,8 @@ import 'package:car_service/features/temp/screens/temp_screen/temp_screen_export
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:car_service/assets/res/svg_icons.dart';
 
 TempScreenWidgetModel initScreenWidgetModelFactory(
   BuildContext context,
@@ -17,20 +19,32 @@ TempScreenWidgetModel initScreenWidgetModelFactory(
 
 class TempScreenWidgetModel extends WidgetModel<TempScreen, ITempScreenModel> implements IDebugWidgetModel {
   final _defaultNavBarItems = [
-    const BottomNavigationBarItem(
-      label: 'Dash screen',
-      icon: Icon(Icons.flutter_dash),
+    BottomNavigationBarItem(
+      label: '',
+      icon: SvgPicture.asset(SvgIcons.inService),
+      activeIcon: SvgPicture.asset(SvgIcons.inServiceActive),
     ),
-    const BottomNavigationBarItem(
-      label: 'Info screen',
-      icon: Icon(Icons.info_outline),
+    BottomNavigationBarItem(
+      label: '',
+      icon: SvgPicture.asset(SvgIcons.serviceWarehouse),
+      activeIcon: SvgPicture.asset(SvgIcons.serviceWarehouseActive),
+    ),
+    BottomNavigationBarItem(
+      label: '',
+      icon: SvgPicture.asset(SvgIcons.serviceRecord),
+      activeIcon: SvgPicture.asset(SvgIcons.serviceRecordActive),
+    ),
+    BottomNavigationBarItem(
+      label: '',
+      icon: SvgPicture.asset(SvgIcons.services),
+      activeIcon: SvgPicture.asset(SvgIcons.servicesActive),
+    ),
+    BottomNavigationBarItem(
+      label: '',
+      icon: SvgPicture.asset(SvgIcons.settings),
+      activeIcon: SvgPicture.asset(SvgIcons.settingsActive),
     ),
   ];
-
-  final _debugNavBarItem = const BottomNavigationBarItem(
-    label: 'Debug screen',
-    icon: Icon(Icons.bug_report_outlined),
-  );
 
   @override
   List<PageRouteInfo> get routes => _routes;
@@ -39,14 +53,14 @@ class TempScreenWidgetModel extends WidgetModel<TempScreen, ITempScreenModel> im
   List<BottomNavigationBarItem> get navigationBarItems => _navigationBarItems;
 
   List<PageRouteInfo> get _routes {
-    final defaultRoutes = <PageRouteInfo>[DashRouter(), InfoRouter()];
-    defaultRoutes.add(DebugRouter());
+    final defaultRoutes = <PageRouteInfo>[InServiceRouter(), ServiceWarehouseRouter(), ServiceRecordRouter(), ServicesRouter(), SettingsRouter()];
+
     return defaultRoutes;
   }
 
   List<BottomNavigationBarItem> get _navigationBarItems {
     final navBarItems = [..._defaultNavBarItems];
-    navBarItems.add(_debugNavBarItem);
+
     return navBarItems;
   }
 
@@ -57,12 +71,16 @@ class TempScreenWidgetModel extends WidgetModel<TempScreen, ITempScreenModel> im
 
   String _appBarTitle(RouteData topRoute) {
     switch (topRoute.path) {
-      case AppRoutePaths.debugPath:
-        return 'Экран отладки';
-      case AppRoutePaths.dashPath:
-        return 'Dash';
-      case AppRoutePaths.infoPath:
-        return 'Info';
+      case AppRoutePaths.inServicePath:
+        return 'in service';
+      case AppRoutePaths.serviceWarehousePath:
+        return 'serviceWarehouse';
+      case AppRoutePaths.serviceRecordPath:
+        return 'service Record';
+      case AppRoutePaths.servicesPath:
+        return 'services';
+      case AppRoutePaths.settingsPath:
+        return 'settings';
       default:
         return '';
     }
