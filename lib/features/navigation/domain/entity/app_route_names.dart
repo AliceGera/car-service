@@ -17,4 +17,6 @@ abstract class AppRouteNames {
   static const String inServiceScreen = 'inServiceRouter';
 
   static const String settingsScreen = 'settingsRouter';
+
+  static const String addCarScreen = 'addCarRouter';
 }

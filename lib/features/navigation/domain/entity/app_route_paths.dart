@@ -8,13 +8,15 @@
 abstract class AppRoutePaths {
   static const String tempPath = '/temp';
 
-  static const String serviceRecordPath = 'serviceRecord';
+  static const String serviceRecordPath = 'service_record';
 
   static const String servicesPath = 'services';
 
-  static const String inServicePath = 'inService';
+  static const String inServicePath = 'in_service';
 
-  static const String serviceWarehousePath = 'serviceWarehouse';
+  static const String serviceWarehousePath = 'service_warehouse';
 
   static const String settingsPath = 'settings';
+
+  static const String addCarPath = '/add_car';
 }

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:car_service/features/common/widgets/app_main_title.dart';
 import 'package:car_service/features/navigation/domain/entity/app_route_names.dart';
 import 'package:car_service/features/service_record/screens/service_record_screen/service_record_screen_widget_model.dart';
 import 'package:elementary/elementary.dart';
@@ -15,20 +16,15 @@ class ServiceRecordScreen extends ElementaryWidget<IServiceRecordScreenWidgetMod
 
   @override
   Widget build(IServiceRecordScreenWidgetModel wm) {
-    return const Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'service Record',
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
-        const SizedBox(height: 16),
-        const SizedBox(height: 46),
-      ],
+    return  Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        children: [
+          const AppMainWidget(title: 'Запись в сервис'),
+
+
+        ],
+      ),
     );
   }
 }

@@ -15,6 +15,17 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AddCarRouter.name: (routeData) {
+      final args = routeData.argsAs<AddCarRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AddCarScreen(
+          loadAgain: args.loadAgain,
+          key: args.key,
+          wmFactory: args.wmFactory,
+        ),
+      );
+    },
     InServiceRouter.name: (routeData) {
       final args = routeData.argsAs<InServiceRouterArgs>(
           orElse: () => const InServiceRouterArgs());
@@ -82,6 +93,52 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [AddCarScreen]
+class AddCarRouter extends PageRouteInfo<AddCarRouterArgs> {
+  AddCarRouter({
+    required void Function() loadAgain,
+    Key? key,
+    WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
+            BuildContext)
+        wmFactory = addCarScreenWmFactory,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AddCarRouter.name,
+          args: AddCarRouterArgs(
+            loadAgain: loadAgain,
+            key: key,
+            wmFactory: wmFactory,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AddCarRouter';
+
+  static const PageInfo<AddCarRouterArgs> page =
+      PageInfo<AddCarRouterArgs>(name);
+}
+
+class AddCarRouterArgs {
+  const AddCarRouterArgs({
+    required this.loadAgain,
+    this.key,
+    this.wmFactory = addCarScreenWmFactory,
+  });
+
+  final void Function() loadAgain;
+
+  final Key? key;
+
+  final WidgetModel<ElementaryWidget<IWidgetModel>, ElementaryModel> Function(
+      BuildContext) wmFactory;
+
+  @override
+  String toString() {
+    return 'AddCarRouterArgs{loadAgain: $loadAgain, key: $key, wmFactory: $wmFactory}';
+  }
 }
 
 /// generated route for
