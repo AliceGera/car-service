@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-class Car {
+class CarData {
   final int id;
   final Uint8List photo;
   final String carBrand;
@@ -13,7 +13,7 @@ class Car {
   final String worksList;
   final String comment;
 
-  Car({
+  CarData({
     required this.id,
     required this.photo,
     required this.carBrand,
@@ -27,7 +27,7 @@ class Car {
     this.carDate,
   });
 
-  static Car init() => Car(
+  static CarData init() => CarData(
         id: 0,
         photo: Uint8List(0),
         carBrand: '',
@@ -39,4 +39,32 @@ class Car {
         worksList: '',
         comment: '',
       );
+
+  CarData copyWith({
+    int? id,
+    Uint8List? photo,
+    String? carBrand,
+    String? carModel,
+    String? releaseYear,
+    String? registrationNumber,
+    String? firstAndLastName,
+    String? phoneNumber,
+    DateTime? carDate,
+    String? worksList,
+    String? comment,
+  }) {
+    return CarData(
+      id: id ?? this.id,
+      photo: photo ?? this.photo,
+      carBrand: carBrand ?? this.carBrand,
+      carModel: carModel ?? this.carModel,
+      releaseYear: releaseYear ?? this.releaseYear,
+      registrationNumber: registrationNumber ?? this.registrationNumber,
+      firstAndLastName: firstAndLastName ?? this.firstAndLastName,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      carDate: carDate ?? this.carDate,
+      worksList: worksList ?? this.worksList,
+      comment: comment ?? this.comment,
+    );
+  }
 }

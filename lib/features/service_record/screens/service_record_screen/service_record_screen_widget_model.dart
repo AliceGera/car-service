@@ -1,61 +1,104 @@
 import 'package:car_service/features/app/di/app_scope.dart';
+import 'package:car_service/features/common/domain/data/records/record_data.dart';
 import 'package:car_service/features/navigation/service/router.dart';
 import 'package:car_service/features/service_record/screens/service_record_screen/service_record_screen.dart';
 import 'package:car_service/features/service_record/screens/service_record_screen/service_record_screen_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:union_state/union_state.dart';
 
-ServiceRecordScreenWidgetModel serviceRecordScreenWidgetModelFactory(
+ServiceRecordScreenWidgetModel serviceRecordScreenWmFactory(
   BuildContext context,
 ) {
-  final appDependencies = context.read<IAppScope>();
-  final model = ServiceRecordScreenModel();
-  final router = appDependencies.router;
+  final appScope = context.read<IAppScope>();
+  final model = ServiceRecordScreenModel(
+    appScope.recordsService,
+  );
   return ServiceRecordScreenWidgetModel(
     model,
-    router,
+    appScope.router,
   );
 }
 
 class ServiceRecordScreenWidgetModel extends WidgetModel<ServiceRecordScreen, ServiceRecordScreenModel> implements IServiceRecordScreenWidgetModel {
-  final AppRouter router;
-
   ServiceRecordScreenWidgetModel(
     super._model,
     this.router,
   );
 
+  final AppRouter router;
+  final _serviceRecordState = UnionStateNotifier<List<RecordData>>([]);
+
+  @override
+  void openAddRecordScreen() {
+    router.push(
+      AddRecordRouter(
+        loadAgain: loadAgain,
+      ),
+    );
+  }
+
+  @override
+  void openEditRecordScreen(RecordData record) {
+    router.push(
+      EditRecordRouter(
+        record: record,
+        loadAgain: loadAgain,
+      ),
+    );
+  }
+
+  @override
+  Future<void> deleteRecordScreen(RecordData data) async {
+    await model.deleteRecord(data);
+    await loadAgain();
+    await router.pop();
+  }
+
+  @override
+  void setWeekDateTime(DateTime weekDateTime)  {
+    model.weekDateTime = weekDateTime;
+    final records =  model.getRecordsForSelectedDay();
+    _serviceRecordState.content(records);
+  }
+
   @override
   void initWidgetModel() {
+    _getRecords();
     super.initWidgetModel();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  Future<void> _getRecords() async {
+    _serviceRecordState.loading();
+    try {
+      final records = await model.getRecords();
+      model.records = records;
+      _serviceRecordState.content(model.getRecordsForSelectedDay());
+    } on Exception catch (e) {
+      _serviceRecordState.failure(e);
+    }
   }
 
   @override
-  void closeScreen() {
-    router.pop();
+  Future<void> loadAgain() async {
+    await _getRecords();
   }
 
-  /*@override
-  void openLogsHistory() {
-    router.push(LogHistoryRouter());
-  }*/
-
-  /*@override
-  void openUiKit() {
-    router.push(const UiKitRouter());
-  }*/
+  @override
+  UnionStateNotifier<List<RecordData>> get serviceRecordState => _serviceRecordState;
 }
 
-abstract class IServiceRecordScreenWidgetModel implements IWidgetModel {
-  void closeScreen() {}
+abstract interface class IServiceRecordScreenWidgetModel implements IWidgetModel {
+  UnionStateNotifier<List<RecordData>> get serviceRecordState;
 
- /* void openLogsHistory();
+  void loadAgain();
 
-  void openUiKit();*/
+  void openAddRecordScreen();
+
+  void openEditRecordScreen(RecordData data);
+
+  Future<void> deleteRecordScreen(RecordData data);
+
+  void setWeekDateTime(DateTime weekDateTime);
 }

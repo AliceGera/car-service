@@ -1,10 +1,3 @@
-/// List of all the paths that are used to navigate in temp feature.
-///
-/// Have to been filled with the entries like this:
-/// ```dart
-/// /// Path description.
-/// static const String screenPath = 'screenPath';
-/// ```
 abstract class AppRoutePaths {
   static const String tempPath = '/temp';
 
@@ -19,4 +12,20 @@ abstract class AppRoutePaths {
   static const String settingsPath = 'settings';
 
   static const String addCarPath = '/add_car';
+
+  static const String editCarPath = '/edit_car';
+
+  static const String carInfoPath = '/car_info';
+
+  static const String addObjectPath = '/add_object';
+
+  static const String editObjectPath = '/edit_object';
+
+  static const String addRecordPath = '/add_record';
+
+  static const String editRecordPath = '/edit_record';
+
+  static const String onboardingPath = '/onboarding';
+
+  static const String splashPath = '/splash';
 }

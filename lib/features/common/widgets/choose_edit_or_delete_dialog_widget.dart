@@ -1,79 +1,60 @@
 import 'package:car_service/assets/colors/app_colors.dart';
-import 'package:car_service/assets/res/svg_icons.dart';
 import 'package:car_service/assets/text/text_style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
 
 class ChooseEditOrDeleteDialogWidget extends StatelessWidget {
-  final Function() editGiftsScreen;
-  final Function() deleteGift;
-  final Function() chooseItem;
-  final String firstText;
+  final Function() editCarScreen;
+  final Function() deleteCar;
   final String icon;
 
   const ChooseEditOrDeleteDialogWidget({
     super.key,
-    required this.editGiftsScreen,
-    required this.deleteGift,
-    required this.chooseItem,
-    required this.firstText,
+    required this.editCarScreen,
+    required this.deleteCar,
     required this.icon,
   });
 
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      backgroundColor: AppColors.buttonColor,
+      backgroundColor: AppColors.white,
       surfaceTintColor: Colors.transparent,
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
           child: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 InkWell(
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onTap: chooseItem,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SvgPicture.asset(icon),
-                      Text(firstText, style: AppTextStyle.regular13.value.copyWith(color: AppColors.white)),
-                    ],
-                  ),
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    onTap: editCarScreen,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 16),
+                      child: Text(
+                        'Редактировать ',
+                        style: AppTextStyle.medium12.value,
+                      ),
+                    )),
+                const Divider(
+                  color: AppColors.gray,
+                  height: 0.2,
                 ),
-                const SizedBox(height: 16),
                 InkWell(
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onTap: deleteGift,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                     // SvgPicture.asset(SvgIcons.delete),
-                      Text('Delete', style: AppTextStyle.regular13.value.copyWith(color: AppColors.white)),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-                InkWell(
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onTap: editGiftsScreen,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      //SvgPicture.asset(SvgIcons.editPen),
-                      Text('Edit', style: AppTextStyle.regular13.value.copyWith(color: AppColors.white)),
-                    ],
-                  ),
-                ),
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    onTap: deleteCar,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 16, bottom: 8),
+                      child: Text(
+                        'Удалить ',
+                        style: AppTextStyle.medium12.value.copyWith(color: AppColors.red),
+                      ),
+                    )),
               ],
             ),
           ),

@@ -10,7 +10,7 @@ import 'package:car_service/features/navigation/service/router.dart';
 
 final tempRoutes = AutoRoute(
   page: TempRouter.page,
-  initial: true,
+  //initial: true,
   path: AppRoutePaths.tempPath,
   children: [
     inServiceRoutes,

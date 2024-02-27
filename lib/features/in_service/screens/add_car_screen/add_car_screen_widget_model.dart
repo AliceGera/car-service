@@ -1,4 +1,5 @@
 import 'package:car_service/features/app/di/app_scope.dart';
+import 'package:car_service/features/common/domain/data/cars/car_data.dart';
 import 'package:car_service/features/navigation/service/router.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/foundation.dart';
@@ -10,8 +11,11 @@ import 'add_car_screen_model.dart';
 AddCarScreenWidgetModel addCarScreenWmFactory(
   BuildContext context,
 ) {
-  final model = AddCarScreenModel();
   final appScope = context.read<IAppScope>();
+  final model = AddCarScreenModel(
+    appScope.carsService,
+  );
+
   return AddCarScreenWidgetModel(
     model,
     appScope.router,
@@ -31,25 +35,27 @@ class AddCarScreenWidgetModel extends WidgetModel<AddCarScreen, AddCarScreenMode
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _worksListController = TextEditingController();
   final TextEditingController _commentController = TextEditingController();
+  final TextEditingController _carModelController = TextEditingController();
 
   final GlobalKey<FormState> _formRegistrationNumberKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formFirstAndLastNameKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formPhoneNumberKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formWorksListKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formCommentKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formCarModelKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formDateTimeKey = GlobalKey<FormState>();
 
   String? _registrationNumberValidationText;
   String? _firstAndLastNameValidationText;
   String? _phoneNumberValidationText;
   String? _worksListValidationText;
   String? _commentValidationText;
-
-  final _dateTimeState = ValueNotifier<DateTime?>(null);
-  final _dateTimeMessageState = ValueNotifier<String?>(null);
-
-  final GlobalKey<FormState> _formDateTimeKey = GlobalKey<FormState>();
-
+  String? _carModelValidationText;
   String? _dateTimeValidationText;
+  final _carBrandMessageState = ValueNotifier<String?>(null);
+  final _dateTimeMessageState = ValueNotifier<String?>(null);
+  final _releaseYearMessageState = ValueNotifier<String?>(null);
+  final _carState = ValueNotifier<CarData>(CarData.init());
 
   @override
   void initWidgetModel() {
@@ -59,6 +65,7 @@ class AddCarScreenWidgetModel extends WidgetModel<AddCarScreen, AddCarScreenMode
         _formRegistrationNumberKey.currentState?.validate();
       }
       model.registrationNumber = _registrationNumberController.text;
+      _carState.value = model.car;
     });
     _firstAndLastNameController.addListener(() {
       if (_firstAndLastNameValidationText != null && _firstAndLastNameValidationText!.isNotEmpty) {
@@ -66,6 +73,7 @@ class AddCarScreenWidgetModel extends WidgetModel<AddCarScreen, AddCarScreenMode
         _formFirstAndLastNameKey.currentState?.validate();
       }
       model.firstAndLastName = _firstAndLastNameController.text;
+      _carState.value = model.car;
     });
     _phoneNumberController.addListener(() {
       if (_phoneNumberValidationText != null && _phoneNumberValidationText!.isNotEmpty) {
@@ -73,6 +81,7 @@ class AddCarScreenWidgetModel extends WidgetModel<AddCarScreen, AddCarScreenMode
         _formPhoneNumberKey.currentState?.validate();
       }
       model.phoneNumber = _phoneNumberController.text;
+      _carState.value = model.car;
     });
     _worksListController.addListener(() {
       if (_worksListValidationText != null && _worksListValidationText!.isNotEmpty) {
@@ -80,6 +89,7 @@ class AddCarScreenWidgetModel extends WidgetModel<AddCarScreen, AddCarScreenMode
         _formWorksListKey.currentState?.validate();
       }
       model.worksList = _worksListController.text;
+      _carState.value = model.car;
     });
     _commentController.addListener(() {
       if (_commentValidationText != null && _commentValidationText!.isNotEmpty) {
@@ -87,16 +97,18 @@ class AddCarScreenWidgetModel extends WidgetModel<AddCarScreen, AddCarScreenMode
         _formCommentKey.currentState?.validate();
       }
       model.comment = _commentController.text;
+      _carState.value = model.car;
+    });
+    _carModelController.addListener(() {
+      if (_carModelValidationText != null && _carModelValidationText!.isNotEmpty) {
+        _carModelValidationText = null;
+        _formCarModelKey.currentState?.validate();
+      }
+      model.carModel = _carModelController.text;
+      _carState.value = model.car;
     });
 
     super.initWidgetModel();
-  }
-
-  @override
-  void addDate(DateTime? date) {
-    model.holidayDate = date;
-    _dateTimeState.value = date;
-    _dateTimeMessageState.value = null;
   }
 
   @override
@@ -106,6 +118,7 @@ class AddCarScreenWidgetModel extends WidgetModel<AddCarScreen, AddCarScreenMode
     _phoneNumberController.dispose();
     _worksListController.dispose();
     _commentController.dispose();
+    _carModelController.dispose();
     super.dispose();
   }
 
@@ -115,8 +128,29 @@ class AddCarScreenWidgetModel extends WidgetModel<AddCarScreen, AddCarScreenMode
   }
 
   @override
+  void addDate(DateTime? date) {
+    model.carDate = date;
+    _carState.value = model.car;
+    _dateTimeMessageState.value = null;
+  }
+
+  @override
   Future<void> savePhoto(Uint8List photo) async {
     model.photo = photo;
+  }
+
+  @override
+  Future<void> saveCarBrand(String carBrand) async {
+    model.carBrand = carBrand;
+    _carState.value = model.car;
+    _carBrandMessageState.value = null;
+  }
+
+  @override
+  Future<void> saveReleaseYear(String releaseYear) async {
+    model.releaseYear = releaseYear;
+    _carState.value = model.car;
+    _releaseYearMessageState.value = null;
   }
 
   @override
@@ -141,16 +175,34 @@ class AddCarScreenWidgetModel extends WidgetModel<AddCarScreen, AddCarScreenMode
       _worksListValidationText = 'error';
       _formWorksListKey.currentState?.validate();
     }
-    final isCommentCorrect = _commentController.text.isNotEmpty;
-    if (!isCommentCorrect) {
-      _commentValidationText = 'error';
-      _formCommentKey.currentState?.validate();
+
+    final isCarModelCorrect = _carModelController.text.isNotEmpty;
+    if (!isCarModelCorrect) {
+      _carModelValidationText = 'error';
+      _formCarModelKey.currentState?.validate();
     }
-    final isDateTimeCorrect = _dateTimeState.value != null;
+    final isDateTimeCorrect = model.car.carDate != null;
     if (!isDateTimeCorrect) {
       _dateTimeMessageState.value = 'error';
     }
-    if (isRegistrationNumberCorrect && isDateTimeCorrect && isFirstAndLastNameCorrect && isPhoneNumberCorrect && isCommentCorrect) {
+    final isReleaseYearCorrect = model.car.releaseYear.isNotEmpty;
+    if (!isReleaseYearCorrect) {
+      _releaseYearMessageState.value = 'error';
+    }
+    final isCarBrandCorrect = model.car.carBrand.isNotEmpty;
+    if (!isCarBrandCorrect) {
+      _carBrandMessageState.value = 'error';
+    }
+
+    final isCanCave = isRegistrationNumberCorrect &&
+        isFirstAndLastNameCorrect &&
+        isPhoneNumberCorrect &&
+        isWorksListCorrect &&
+        isCarModelCorrect &&
+        isDateTimeCorrect &&
+        isReleaseYearCorrect  &&
+        isCarBrandCorrect ;
+    if (isCanCave) {
       await model.addCar();
       await router.pop();
     }
@@ -172,6 +224,9 @@ class AddCarScreenWidgetModel extends WidgetModel<AddCarScreen, AddCarScreenMode
   TextEditingController get commentController => _commentController;
 
   @override
+  TextEditingController get carModelController => _carModelController;
+
+  @override
   GlobalKey<FormState> get formRegistrationNumberKey => _formRegistrationNumberKey;
 
   @override
@@ -185,6 +240,9 @@ class AddCarScreenWidgetModel extends WidgetModel<AddCarScreen, AddCarScreenMode
 
   @override
   GlobalKey<FormState> get formCommentKey => _formCommentKey;
+
+  @override
+  GlobalKey<FormState> get formCarModelKey => _formCarModelKey;
 
   @override
   String? getRegistrationNumberValidationText() => _registrationNumberValidationText;
@@ -202,20 +260,28 @@ class AddCarScreenWidgetModel extends WidgetModel<AddCarScreen, AddCarScreenMode
   String? getCommentValidationText() => _commentValidationText;
 
   @override
+  String? getCarModelValidationText() => _carModelValidationText;
+
+  @override
   String? getDateTimeValidationText() => _dateTimeValidationText;
 
   @override
   GlobalKey<FormState> get formDateTimeKey => _formDateTimeKey;
 
   @override
-  ValueNotifier<DateTime?> get dateTimeState => _dateTimeState;
+  ValueNotifier<String?> get dateTimeMessageState => _dateTimeMessageState;
 
   @override
-  ValueNotifier<String?> get dateTimeMessageState => _dateTimeMessageState;
+  ValueNotifier<String?> get carBrandMessageState => _carBrandMessageState;
+
+  @override
+  ValueNotifier<String?> get releaseYearMessageState => _releaseYearMessageState;
+
+  @override
+  ValueNotifier<CarData> get carState => _carState;
 }
 
 abstract interface class IAddCarScreenWidgetModel implements IWidgetModel {
-
   TextEditingController get registrationNumberController;
 
   TextEditingController get firstAndLastNameController;
@@ -225,6 +291,8 @@ abstract interface class IAddCarScreenWidgetModel implements IWidgetModel {
   TextEditingController get worksListController;
 
   TextEditingController get commentController;
+
+  TextEditingController get carModelController;
 
   GlobalKey<FormState> get formRegistrationNumberKey;
 
@@ -238,6 +306,8 @@ abstract interface class IAddCarScreenWidgetModel implements IWidgetModel {
 
   GlobalKey<FormState> get formDateTimeKey;
 
+  GlobalKey<FormState> get formCarModelKey;
+
   String? getRegistrationNumberValidationText();
 
   String? getFirstAndLastNameValidationText();
@@ -248,15 +318,25 @@ abstract interface class IAddCarScreenWidgetModel implements IWidgetModel {
 
   String? getCommentValidationText();
 
-  ValueNotifier<DateTime?> get dateTimeState;
+  String? getCarModelValidationText();
 
   ValueNotifier<String?> get dateTimeMessageState;
+
+  ValueNotifier<String?> get releaseYearMessageState;
+
+  ValueNotifier<String?> get carBrandMessageState;
+
+  ValueNotifier<CarData> get carState;
 
   void closeScreen();
 
   void addDate(DateTime? date);
 
   void savePhoto(Uint8List photo);
+
+  void saveCarBrand(String carModel);
+
+  void saveReleaseYear(String releaseYear);
 
   Future<void> addCar();
 }

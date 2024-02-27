@@ -35,11 +35,11 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
 
   bool isFocused = false;
   bool isShowFloatingLabel = false;
-  bool showClose = false;
+  bool textIsNotEmpty = false;
 
   void listener() {
     setState(() {
-      showClose = widget.controller!.text.isEmpty;
+      textIsNotEmpty = widget.controller!.text.isNotEmpty;
     });
   }
 
@@ -47,6 +47,7 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
   void initState() {
     _focus.addListener(_onFocusChange);
     widget.controller?.addListener(listener);
+    listener();
     super.initState();
   }
 
@@ -60,107 +61,86 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
   }
 
   void _onFocusChange() {
-    setState(() {});
+    setState(() {
+      isFocused = _focus.hasFocus;
+    });
   }
+
+  late Widget widgetStack = Padding(
+    padding: const EdgeInsets.symmetric(vertical: 6),
+    child: TextFormField(
+      inputFormatters: widget.inputFormatters,
+      keyboardType: widget.keyboardType,
+      maxLines: widget.lines,
+      style: AppTextStyle.regular14.value.copyWith(color: Colors.black),
+      validator: (value) {
+        return widget.validatorText?.call() != null ? '' : null;
+      },
+      focusNode: _focus,
+      controller: widget.controller,
+      decoration: InputDecoration(
+        isDense: true,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        errorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          borderSide: BorderSide(color: Colors.red, width: 0.2),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(width: 0.2, color: AppColors.gray),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(width: 0.2, color: AppColors.gray),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        focusedErrorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          borderSide: BorderSide(color: AppColors.gray, width: 0.2),
+        ),
+        errorStyle: const TextStyle(height: 0),
+        fillColor: AppColors.white,
+        filled: true,
+        hintText: widget.text,
+        hintStyle: AppTextStyle.superLight12.value.copyWith(color: AppColors.prime),
+      ),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: widget.formKey,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (!showClose || _focus.hasFocus)
-              Text(
-                widget.text,
-                style: AppTextStyle.medium10.value.copyWith(color: AppColors.buttonColor),
-              )
-            else
-              const SizedBox(),
-            TextFormField(
-              inputFormatters: widget.inputFormatters,
-              keyboardType: widget.keyboardType,
-              maxLines: widget.lines,
-              style: AppTextStyle.regular14.value.copyWith(color: Colors.black),
-              validator: (value) {
-                return widget.validatorText?.call() != null ? '' : null;
-              },
-              focusNode: _focus,
-              controller: widget.controller,
-              decoration: InputDecoration(
-                /*suffixIcon: widget.isPrice
-                    ? IconButton(
-                  icon: SvgPicture.asset(
-                    SvgIcons.dollar,
-                    height: 25,
-                  ),
-                  onPressed: () {},
-                )
-                    : ((widget.lines > 1)
-                    ? Padding(
-                  padding: const EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 100),
-                  child: Align(
-                    widthFactor: 1,
-                    heightFactor: 1,
-                    child: !showClose
-                        ? InkWell(
-                      highlightColor: Colors.transparent,
-                      splashColor: Colors.transparent,
-                      onTap: () {
-                        widget.controller?.text = '';
-                      },
-                      child: SvgPicture.asset(
-                        SvgIcons.close,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Form(
+        key: widget.formKey,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (textIsNotEmpty || isFocused)
+                Stack(
+                  children: [
+                    widgetStack,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Text(
+                        widget.text,
+                        style: AppTextStyle.medium10.value.copyWith(color: AppColors.prime),
                       ),
-                    )
-                        : const SizedBox(),
-                  ),
-                )
-                    : Align(
-                  widthFactor: 1,
-                  heightFactor: 1,
-                  child: !showClose
-                      ? InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      widget.controller?.text = '';
-                    },
-                    child: SvgPicture.asset(
-                      SvgIcons.close,
                     ),
-                  )
-                      : const SizedBox(),
-                )),*/
-                isDense: true,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                errorBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  borderSide: BorderSide(color: Colors.red, width: 0.2),
+                  ],
+                )
+              else
+                Stack(
+                  children: [
+                    widgetStack,
+                    const SizedBox(),
+                  ],
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 0.2, color: AppColors.gray),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 0.2, color: AppColors.gray),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                focusedErrorBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  borderSide: BorderSide(color: AppColors.gray, width: 0.2),
-                ),
-                fillColor: AppColors.white,
-                filled: true,
-                hintText: widget.text,
-                hintStyle: AppTextStyle.superLight12.value.copyWith(color: AppColors.buttonColor),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

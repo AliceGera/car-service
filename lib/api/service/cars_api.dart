@@ -11,7 +11,7 @@ class CarsApi {
     return appDatabase.select(appDatabase.carTable).get();
   }
 
-  Future<void> addCar(Car data) async {
+  Future<void> addCar(CarData data) async {
     await appDatabase.into(appDatabase.carTable).insert(
           CarTableCompanion.insert(
             registrationNumber: data.registrationNumber,
@@ -28,7 +28,7 @@ class CarsApi {
         );
   }
 
-  Future<void> editCar(Car data) async {
+  Future<void> editCar(CarData data) async {
     final resultTable = appDatabase.update(appDatabase.carTable)..where((t) => t.id.equals(data.id));
     await resultTable.write(
       CarTableCompanion.insert(
@@ -46,7 +46,7 @@ class CarsApi {
     );
   }
 
-  Future<void> deleteCar(Car data) async {
+  Future<void> deleteCar(CarData data) async {
     final resultTable = appDatabase.delete(appDatabase.carTable)..where((t) => t.id.equals(data.id));
     await resultTable.go();
   }

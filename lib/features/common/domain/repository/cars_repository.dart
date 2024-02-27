@@ -7,19 +7,19 @@ class CarsRepository {
 
   CarsRepository(this._apiClient);
 
-  Future<List<Car>> getCars() async {
+  Future<List<CarData>> getCars() async {
     final some = await _apiClient.getCars();
     return mapDatabaseToCars(some);
   }
 
-  Future<void> addCar(Car data) async {
+  Future<void> addCar(CarData data) async {
     await _apiClient.addCar(data);
   }
 
-  Future<void> editCar(Car data) async {
+  Future<void> editCar(CarData data) async {
     await _apiClient.editCar(data);
   }
-  Future<void> deleteCar(Car data) async {
+  Future<void> deleteCar(CarData data) async {
 
     await _apiClient.deleteCar(data);
   }

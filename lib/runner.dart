@@ -1,14 +1,11 @@
 import 'dart:async';
-
 import 'package:car_service/features/app/di/app_scope.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'features/app/app.dart';
 
-/// App launch.
 Future<void> run() async {
-  /// It must be called so that the orientation does not fall.
   WidgetsFlutterBinding.ensureInitialized();
 
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -17,6 +14,7 @@ Future<void> run() async {
 }
 
 Future<void> _runApp() async {
-  final scope = AppScope();
+  final sharedPreferences = await SharedPreferences.getInstance();
+  final scope = AppScope(sharedPreferences);
   runApp(App(scope));
 }

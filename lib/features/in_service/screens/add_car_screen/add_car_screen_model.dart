@@ -1,68 +1,56 @@
+import 'package:car_service/features/common/domain/data/cars/car_data.dart';
+import 'package:car_service/features/common/service/cars_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/foundation.dart';
 
 class AddCarScreenModel extends ElementaryModel {
+  AddCarScreenModel(this._carsService) : super();
+  final CarsService _carsService;
+  CarData _car = CarData.init();
 
-  //final HolidaysService _holidaysService;
-
-  String _registrationNumber = '';
-  String _firstAndLastName= '';
-  String _phoneNumber= '';
-  String _worksList= '';
-  String _comment= '';
-  DateTime? _holidayDate;
-  Uint8List _photo = Uint8List(0);
-
-  String get registrationNumber => _registrationNumber;
-  String get firstAndLastName => _firstAndLastName;
-  String get phoneNumber => _phoneNumber;
-  String get worksList => _worksList;
-  String get comment => _comment;
-  DateTime? get holidayDate => _holidayDate;
-  Uint8List get photo => _photo;
+  CarData get car => _car;
 
   set photo(Uint8List newPhoto) {
-    _photo = newPhoto;
+    _car = car.copyWith(photo: newPhoto);
   }
-  set holidayDate(DateTime? date) {
-    _holidayDate = date;
+
+  set carModel(String newCarModel) {
+    _car = _car.copyWith(carModel: newCarModel);
   }
+
+  set carBrand(String newCarBrandl) {
+    _car = _car.copyWith(carBrand: newCarBrandl);
+  }
+
+  set releaseYear(String newReleaseYear) {
+    _car = _car.copyWith(releaseYear: newReleaseYear);
+  }
+
+  set carDate(DateTime? date) {
+    _car = _car.copyWith(carDate: date);
+  }
+
   set registrationNumber(String newRegistrationNumber) {
-    _registrationNumber = newRegistrationNumber;
+    _car = _car.copyWith(registrationNumber: newRegistrationNumber);
   }
+
   set firstAndLastName(String newFirstAndLastName) {
-    _firstAndLastName = newFirstAndLastName;
+    _car = _car.copyWith(firstAndLastName: newFirstAndLastName);
   }
+
   set phoneNumber(String newPhoneNumber) {
-    _phoneNumber = newPhoneNumber;
+    _car = _car.copyWith(phoneNumber: newPhoneNumber);
   }
+
   set worksList(String newWorksList) {
-    _worksList = newWorksList;
+    _car = _car.copyWith(worksList: newWorksList);
   }
+
   set comment(String newComment) {
-    _comment = newComment;
+    _car = _car.copyWith(comment: newComment);
   }
- // DateTime? get holidayDate => _holidayDate;
-/*
-  set holidayDate(DateTime? date) {
-    _holidayDate = date;
-  }
-
-  Uint8List get photo => _photo;
-
-  set photo(Uint8List newPhoto) {
-    _photo = newPhoto;
-  }*/
-
 
   Future<void> addCar() async {
-   /* await _holidaysService.addHoliday(
-      Holiday(
-        id: 1,
-        holidayName: _holidayName,
-        holidayDate: _holidayDate,
-        photo: _photo,
-      ),
-    );*/
+    await _carsService.addCar(_car);
   }
 }

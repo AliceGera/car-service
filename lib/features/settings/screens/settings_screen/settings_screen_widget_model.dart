@@ -4,7 +4,9 @@ import 'package:car_service/features/settings/screens/settings_screen/settings_s
 import 'package:car_service/features/settings/screens/settings_screen/settings_screen_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 SettingsScreenWidgetModel settingsScreenWidgetModelFactory(
   BuildContext context,
@@ -41,21 +43,30 @@ class SettingsScreenWidgetModel extends WidgetModel<SettingsScreen, SettingsScre
     router.pop();
   }
 
-  /*@override
-  void openLogsHistory() {
-    router.push(LogHistoryRouter());
-  }*/
+  @override
+  Future<void> onTap() async {
+    const url = 'https://flutter.dev';
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
-  /*@override
-  void openUiKit() {
-    router.push(const UiKitRouter());
-  }*/
+  @override
+  Future<void> onTapAppReview() async {
+    final InAppReview inAppReview = InAppReview.instance;
+
+    if (await inAppReview.isAvailable()) {
+      inAppReview.requestReview();
+    }
+  }
 }
 
 abstract class ISettingsScreenWidgetModel implements IWidgetModel {
-  void closeScreen() {}
+  void closeScreen() ;
 
- /* void openLogsHistory();
+  void onTap();
 
-  void openUiKit();*/
+  void onTapAppReview() ;
 }

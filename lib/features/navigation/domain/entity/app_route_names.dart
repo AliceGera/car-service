@@ -1,11 +1,5 @@
-/// List of all route names used in temp feature.
-///
-/// Have to been filled with the entries like this:
-/// ```dart
-/// /// Name description.
-/// static const String screenName = 'screenNameRoute';
-/// ```
 abstract class AppRouteNames {
+
   static const String tempScreen = 'tempRouter';
 
   static const String serviceRecordScreen = 'serviceRecordRouter';
@@ -19,4 +13,20 @@ abstract class AppRouteNames {
   static const String settingsScreen = 'settingsRouter';
 
   static const String addCarScreen = 'addCarRouter';
+
+  static const String editCarScreen = 'editCarRouter';
+
+  static const String carInfoScreen = 'carInfoRouter';
+
+  static const String addObjectScreen = 'addObjectRouter';
+
+  static const String editObjectScreen = 'editObjectRouter';
+
+  static const String addRecordScreen = 'addRecordRouter';
+
+  static const String editRecordScreen = 'editRecordRouter';
+
+  static const String onboardingScreen = 'onboardingRouter';
+
+  static const String splashScreen = 'splashRouter';
 }

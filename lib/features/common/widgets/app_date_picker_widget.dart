@@ -7,22 +7,22 @@ final _datePickerConfig = CalendarDatePicker2WithActionButtonsConfig(
   calendarType: CalendarDatePicker2Type.single,
   weekdayLabels: ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'],
   firstDayOfWeek: 1,
-  weekdayLabelTextStyle: AppTextStyle.regular10.value.copyWith(color: AppColors.darkGrey),
+  weekdayLabelTextStyle: AppTextStyle.regular10.value.copyWith(color: AppColors.darkGray),
   lastMonthIcon: const Icon(
     Icons.chevron_left,
     color: AppColors.gray,
   ),
   nextMonthIcon: const Icon(
     Icons.chevron_right,
-    color: AppColors.buttonColor,
+    color: AppColors.prime,
   ),
-  controlsTextStyle: AppTextStyle.regular10.value.copyWith(color: AppColors.darkGrey),
+  controlsTextStyle: AppTextStyle.regular10.value.copyWith(color: AppColors.darkGray),
   dayTextStyle: AppTextStyle.medium14.value.copyWith(color: Colors.black),
   selectedDayTextStyle: AppTextStyle.medium14.value.copyWith(color: AppColors.white),
-  selectedDayHighlightColor: AppColors.buttonColor,
+  selectedDayHighlightColor: AppColors.prime,
   yearTextStyle: AppTextStyle.semiBold16.value.copyWith(color: Colors.black),
   selectedYearTextStyle: const TextStyle(
-    color: AppColors.buttonColor,
+    color: AppColors.prime,
     fontWeight: FontWeight.bold,
     fontSize: 20,
   ),
@@ -43,7 +43,7 @@ final _datePickerConfig = CalendarDatePicker2WithActionButtonsConfig(
   okButton: Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(16),
-      color: AppColors.buttonColor,
+      color: AppColors.prime,
     ),
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),

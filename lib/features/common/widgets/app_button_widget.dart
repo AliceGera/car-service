@@ -8,6 +8,7 @@ class AppButtonWidget extends StatelessWidget {
   final VoidCallback? onPressed;
   final Color? color;
   final Color? textColor;
+  final Color borderColor;
 
   const AppButtonWidget({
     required this.title,
@@ -16,17 +17,21 @@ class AppButtonWidget extends StatelessWidget {
     this.onPressed,
     this.color,
     this.textColor,
+    this.borderColor = AppColors.prime,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(AppColors.buttonColor),
+        backgroundColor: MaterialStateProperty.all<Color>(color ?? AppColors.prime),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
+        ),
+        side: MaterialStateProperty.all<BorderSide>(
+          BorderSide(color: borderColor, width: 0.5),
         ),
       ),
       onPressed: onPressed,

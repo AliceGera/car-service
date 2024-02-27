@@ -5,7 +5,6 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:union_state/union_state.dart';
-
 import 'in_service_screen.dart';
 import 'in_service_screen_model.dart';
 
@@ -29,7 +28,7 @@ class InServiceScreenWidgetModel extends WidgetModel<InServiceScreen, InServiceS
   );
 
   final AppRouter router;
-  final _carsState = UnionStateNotifier<List<Car>>([]);
+  final _carsState = UnionStateNotifier<List<CarData>>([]);
 
   @override
   void openAddCarScreen() {
@@ -41,17 +40,43 @@ class InServiceScreenWidgetModel extends WidgetModel<InServiceScreen, InServiceS
   }
 
   @override
+  void openEditCarScreen(CarData car) {
+    router.push(
+      EditCarRouter(
+        car: car,
+        loadAgain: loadAgain,
+      ),
+    );
+  }
+
+  @override
+  Future<void> deleteCarInfoScreen(CarData car) async {
+    await model.deleteCar(car);
+    await loadAgain();
+    await router.pop();
+  }
+
+  @override
+  void openCarInfoScreen(CarData car) {
+    router.push(
+      CarInfoRouter(
+        car: car,
+        loadAgain: loadAgain,
+      ),
+    );
+  }
+
+  @override
   void initWidgetModel() {
     _getCars();
-    //_appScope.holidayRebuilder = _getHolidays;
     super.initWidgetModel();
   }
 
   Future<void> _getCars() async {
     _carsState.loading();
     try {
-      final holidays = await model.getCars();
-      _carsState.content(holidays);
+      final cars = await model.getCars();
+      _carsState.content(cars);
     } on Exception catch (e) {
       _carsState.failure(e);
     }
@@ -59,19 +84,23 @@ class InServiceScreenWidgetModel extends WidgetModel<InServiceScreen, InServiceS
 
   @override
   Future<void> loadAgain() async {
-    //_appScope.giftRecievedRebuilder.call();
-    //_appScope.giftGivenRebuilder.call();
     await _getCars();
   }
 
   @override
-  UnionStateNotifier<List<Car>> get carsState => _carsState;
+  UnionStateNotifier<List<CarData>> get carsState => _carsState;
 }
 
 abstract interface class IInServiceScreenWidgetModel implements IWidgetModel {
+  UnionStateNotifier<List<CarData>> get carsState;
+
   void loadAgain();
 
-  UnionStateNotifier<List<Car>> get carsState;
-
   void openAddCarScreen();
+
+  void openEditCarScreen(CarData car);
+
+  void openCarInfoScreen(CarData car);
+
+  Future<void> deleteCarInfoScreen(CarData car);
 }

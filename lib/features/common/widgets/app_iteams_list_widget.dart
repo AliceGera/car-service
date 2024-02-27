@@ -11,8 +11,9 @@ import 'package:flutter_svg/svg.dart';
 
 class AppItemListWidget<T> extends StatelessWidget {
   final List<T> values;
-  final List<String> mainNames;
-  final List<String> secondText;
+  final List<String> carBrand;
+  final List<String> carModel;
+  final List<String> registrationNumber;
   final List<Uint8List> photoList;
   final void Function(T) onTapThreeDots;
   final void Function(T)? onItemTap;
@@ -20,11 +21,12 @@ class AppItemListWidget<T> extends StatelessWidget {
   const AppItemListWidget({
     super.key,
     required this.values,
-    required this.mainNames,
-    required this.secondText,
+    required this.carBrand,
+    required this.carModel,
+    required this.registrationNumber,
     required this.photoList,
     required this.onTapThreeDots,
-     this.onItemTap,
+    this.onItemTap,
   });
 
   @override
@@ -32,12 +34,10 @@ class AppItemListWidget<T> extends StatelessWidget {
     return Expanded(
       child: SingleChildScrollView(
         child: ListView.separated(
-          separatorBuilder: (context, index) => const Divider(
-            color: Color(0xff363B62),
-          ),
+          separatorBuilder: (context, index) => const SizedBox(height: 8),
           physics: const ClampingScrollPhysics(),
           shrinkWrap: true,
-          itemCount: mainNames.length,
+          itemCount: carBrand.length,
           itemBuilder: (context, index) {
             return InkWell(
               highlightColor: Colors.transparent,
@@ -45,58 +45,68 @@ class AppItemListWidget<T> extends StatelessWidget {
               onTap: () {
                 onItemTap?.call(values[index]);
               },
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 90,
-                          width: 90,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: photoList[index].isNotEmpty
-                                ? Image.memory(
-                                    photoList[index],
-                                    fit: BoxFit.cover,
-                                  )
-                                : Container(
-                                    color: AppColors.buttonColor,
-                                  ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 9),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  mainNames[index],
-                                  overflow: TextOverflow.ellipsis,
-                                  style: AppTextStyle.bold14.value.copyWith(
-                                    color: AppColors.white,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(secondText[index], overflow: TextOverflow.ellipsis, style: AppTextStyle.medium10.value.copyWith(color: AppColors.white)),
-                              ],
+              child: Container(
+                decoration: BoxDecoration(color: AppColors.white, borderRadius: BorderRadius.circular(16)),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 60,
+                              width: 60,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(30),
+                                child: photoList[index].isNotEmpty
+                                    ? Image.memory(
+                                        photoList[index],
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Container(
+                                        color: AppColors.prime,
+                                      ),
+                              ),
                             ),
-                          ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 9),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${carBrand[index]} ${carModel[index]}',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: AppTextStyle.medium18.value.copyWith(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      registrationNumber[index],
+                                      overflow: TextOverflow.ellipsis,
+                                      style: AppTextStyle.regular14.value.copyWith(color: Colors.black),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                      InkWell(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onTap: () => onTapThreeDots.call(values[index]),
+                        child: SvgPicture.asset(SvgIcons.dots),
+                      ),
+                    ],
                   ),
-                  InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () => onTapThreeDots.call(values[index]),
-                    child: SvgPicture.asset(SvgIcons.dots),
-                  ),
-                ],
+                ),
               ),
             );
           },

@@ -6,19 +6,19 @@ class CarsService {
 
   CarsService(this._carsRepository);
 
-  Future<Future<List<Car>>> getCars() async {
+  Future<Future<List<CarData>>> getCars() async {
     return _carsRepository.getCars();
   }
 
-  Future<void> addCar(Car data) async {
+  Future<void> addCar(CarData data) async {
     await _carsRepository.addCar(data);
   }
 
-  Future<void> deleteCar(Car data) async {
+  Future<void> deleteCar(CarData data) async {
     await _carsRepository.deleteCar(data);
   }
 
-  Future<void> editCar(Car data) async {
+  Future<void> editCar(CarData data) async {
     await _carsRepository.editCar(data);
   }
 }

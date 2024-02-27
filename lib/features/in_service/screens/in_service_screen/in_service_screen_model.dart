@@ -6,12 +6,12 @@ class InServiceScreenModel extends ElementaryModel {
   InServiceScreenModel(this._carsService) : super();
   final CarsService _carsService;
 
-  Future<List<Car>> getCars() async {
+  Future<List<CarData>> getCars() async {
     final cars = await _carsService.getCars();
     return cars;
   }
 
-  Future<void> deleteCars(Car car) async {
+  Future<void> deleteCar(CarData car) async {
     await _carsService.deleteCar(car);
   }
 }
