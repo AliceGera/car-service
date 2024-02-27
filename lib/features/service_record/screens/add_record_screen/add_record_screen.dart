@@ -84,13 +84,18 @@ class AddRecordScreen extends ElementaryWidget<IAddRecordScreenWidgetModel> {
                           color: AppColors.backgroundGray,
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                           child: Column(
                             children: [
-                              DropdownWidget(
-                                items: carBrand,
-                                title: record.recordBrand.isEmpty ? 'Марка автомобиля' : record!.recordBrand,
-                                selectedValueText: wm.saveRecordBrand,
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 6),
+                                child: DropdownWidget(
+                                  items: carBrand,
+                                  title: record.recordBrand.isEmpty ? 'Марка автомобиля' : record!.recordBrand,
+                                  selectedValueText: wm.saveRecordBrand,
+                                  text: record.recordBrand.isEmpty ? '' : 'Марка автомобиля',
+
+                                ),
                               ),
                               Row(
                                 children: [
@@ -100,14 +105,17 @@ class AddRecordScreen extends ElementaryWidget<IAddRecordScreenWidgetModel> {
                                       text: 'Модель автомобиля',
                                       controller: wm.recordModelController,
                                       validatorText: wm.getRecordModelValidationText,
+
                                     ),
                                   ),
                                   const SizedBox(width: 10),
                                   Expanded(
                                     child: DropdownWidget(
-                                        items: releaseYear,
-                                        title: record.releaseYear.isEmpty ? 'Год выпуска' : record!.releaseYear,
-                                        selectedValueText: wm.saveReleaseYear),
+                                      items: releaseYear,
+                                      title: record.releaseYear.isEmpty ? 'Год выпуска' : record!.releaseYear,
+                                      selectedValueText: wm.saveReleaseYear,
+                                      text: record.releaseYear.isEmpty ? '' : 'Год выпуска',
+                                    ),
                                   ),
                                 ],
                               ),
@@ -168,6 +176,7 @@ class AddRecordScreen extends ElementaryWidget<IAddRecordScreenWidgetModel> {
                                               color: dateTimeMessage != null ? Colors.red : AppColors.gray,
                                               text: record.recordDate != null ? DateFormat('dd.MM.yyyy').format(record.recordDate!) : 'Дата',
                                               assetName: SvgIcons.datePicker,
+                                              fieldName: record.recordDate == null ? '' : 'Дата',
                                             );
                                           },
                                           valueListenable: wm.recordDateMessageState,
@@ -192,6 +201,7 @@ class AddRecordScreen extends ElementaryWidget<IAddRecordScreenWidgetModel> {
                                               color: dateTimeMessage != null ? Colors.red : AppColors.gray,
                                               text: record.recordTime != null ? DateFormat('HH:mm').format(record.recordDate!) : 'Время',
                                               assetName: SvgIcons.time,
+                                              fieldName: record.recordTime == null ? '' : 'Время',
                                             );
                                           },
                                           valueListenable: wm.recordTimeMessageState,
@@ -201,11 +211,14 @@ class AddRecordScreen extends ElementaryWidget<IAddRecordScreenWidgetModel> {
                                   ],
                                 ),
                               ),
-                              AppTextFieldWidget(
-                                formKey: wm.formCommentKey,
-                                text: 'Комментарий',
-                                controller: wm.commentController,
-                                validatorText: wm.getCommentValidationText,
+                              Padding(
+                                padding: const EdgeInsets.only(top: 6),
+                                child: AppTextFieldWidget(
+                                  formKey: wm.formCommentKey,
+                                  text: 'Комментарий',
+                                  controller: wm.commentController,
+                                  validatorText: wm.getCommentValidationText,
+                                ),
                               ),
                             ],
                           ),

@@ -86,15 +86,18 @@ class EditRecordScreen extends ElementaryWidget<IEditRecordScreenWidgetModel> {
                           color: AppColors.backgroundGray,
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                           child: Column(
                             children: [
-                              DropdownWidget(
-                                items: recordBrand,
-                                title: record.recordBrand.isEmpty ? 'Марка автомобиля' : record!.recordBrand,
-                                selectedValueText: wm.saveRecordBrand,
-                                isEdit: true,
-                                text: record.recordBrand.isEmpty ? '' : 'Марка автомобиля',
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 6),
+                                child: DropdownWidget(
+                                  items: recordBrand,
+                                  title: record.recordBrand.isEmpty ? 'Марка автомобиля' : record!.recordBrand,
+                                  selectedValueText: wm.saveRecordBrand,
+                                  isEdit: true,
+                                  text: record.recordBrand.isEmpty ? '' : 'Марка автомобиля',
+                                ),
                               ),
                               Row(
                                 children: [
@@ -147,7 +150,7 @@ class EditRecordScreen extends ElementaryWidget<IEditRecordScreenWidgetModel> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 6),
+                                padding: const EdgeInsets.only(top: 6,bottom: 12),
                                 child: Row(
                                   children: [
                                     Expanded(
