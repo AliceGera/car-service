@@ -67,7 +67,7 @@ class EditObjectScreen extends ElementaryWidget<IEditObjectScreenWidgetModel> {
           child: UnionStateListenableBuilder<ObjectTypeWithObjectsData>(
             unionStateListenable: wm.objectTypeWithObjectsState,
             builder: (_, object) {
-              return AppAddGiftWidget(
+              return AppAddOrEditObjectWidget(
                 isEdit: true,
                 saveObjectMeasureUnit: wm.saveObjectMeasureUnit,
                 addOrEditGift: wm.editObject,

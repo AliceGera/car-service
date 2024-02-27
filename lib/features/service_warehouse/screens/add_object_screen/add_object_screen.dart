@@ -62,7 +62,7 @@ class AddObjectScreen extends ElementaryWidget<IAddObjectWidgetModel> {
           child: UnionStateListenableBuilder<ObjectData>(
             unionStateListenable: wm.objectsState,
             builder: (_, object) {
-              return AppAddGiftWidget(
+              return AppAddOrEditObjectWidget(
                 saveObjectMeasureUnit: wm.saveObjectMeasureUnit,
                 addOrEditGift: wm.addObject,
                 object: object,

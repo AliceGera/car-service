@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
-class AppAddGiftWidget extends StatelessWidget {
+class AppAddOrEditObjectWidget extends StatelessWidget {
   final VoidCallback? closeScreen;
   final TextEditingController objectTypeController;
   final TextEditingController objectNameController;
@@ -33,7 +33,7 @@ class AppAddGiftWidget extends StatelessWidget {
   final String? Function()? objectNameValidatorText;
   final String? Function()? objectCountValidatorText;
 
-  AppAddGiftWidget({
+  AppAddOrEditObjectWidget({
     this.descriptionValidatorText,
     this.objectTypeValidatorText,
     this.objectNameValidatorText,
@@ -139,6 +139,7 @@ class AppAddGiftWidget extends StatelessWidget {
                               text: object.measureUnit.isEmpty ? '' : 'Ед. измерения',
                               selectedValueText: saveObjectMeasureUnit,
                               colorBorder: measureUnitMessage != null ? Colors.red : AppColors.gray,
+                              isEdit: true,
                             );
                           },
                           valueListenable: measureUnitMessageState,
@@ -160,30 +161,15 @@ class AppAddGiftWidget extends StatelessWidget {
           const SizedBox(height: 20),
           AppButtonWidget(
             title: 'Сохранить',
-            onPressed: (object.objectName.isNotEmpty &&
-                object.objectCount.isNotEmpty &&
-                object.measureUnit!= null )
+            onPressed: (object.objectName.isNotEmpty && object.objectCount.isNotEmpty && object.measureUnit != null)
                 ? () async {
-              await addOrEditGift();
-              loadAgain.call();
-            }
+                    await addOrEditGift();
+                    loadAgain.call();
+                  }
                 : null,
-            color: (object.objectName.isNotEmpty &&
-                object.objectCount.isNotEmpty &&
-                object.measureUnit!= null)
-                ? AppColors.prime
-                : AppColors.white,
-            textColor:(object.objectName.isNotEmpty &&
-                object.objectCount.isNotEmpty &&
-                object.measureUnit!= null)
-                ? Colors.white
-                : AppColors.darkGray,
-            borderColor:(object.objectName.isNotEmpty &&
-                object.objectCount.isNotEmpty &&
-                object.measureUnit!= null)
-                ? AppColors.prime
-                : Colors.black,
-
+            color: (object.objectName.isNotEmpty && object.objectCount.isNotEmpty && object.measureUnit != null) ? AppColors.prime : AppColors.white,
+            textColor: (object.objectName.isNotEmpty && object.objectCount.isNotEmpty && object.measureUnit != null) ? Colors.white : AppColors.darkGray,
+            borderColor: (object.objectName.isNotEmpty && object.objectCount.isNotEmpty && object.measureUnit != null) ? AppColors.prime : Colors.black,
           ),
           /*AppButtonWidget(
             title: 'Сохранить',
