@@ -3,6 +3,7 @@ import 'package:car_service/assets/colors/app_colors.dart';
 import 'package:car_service/assets/res/svg_icons.dart';
 import 'package:car_service/assets/text/text_style.dart';
 import 'package:car_service/features/common/domain/data/object/object_data.dart';
+import 'package:car_service/features/common/domain/data/objectTypes/object_type_data.dart';
 import 'package:car_service/features/common/widgets/add_object_widget.dart';
 import 'package:car_service/features/navigation/domain/entity/app_route_names.dart';
 import 'package:elementary/elementary.dart';
@@ -59,30 +60,36 @@ class AddObjectScreen extends ElementaryWidget<IAddObjectWidgetModel> {
           ),
         ),
         body: SingleChildScrollView(
-          child: UnionStateListenableBuilder<ObjectData>(
-            unionStateListenable: wm.objectsState,
-            builder: (_, object) {
-              return AppAddOrEditObjectWidget(
-                saveObjectMeasureUnit: wm.saveObjectMeasureUnit,
-                addOrEditGift: wm.addObject,
-                object: object,
-                loadAgain: loadAgain,
-                savePhoto: wm.savePhoto,
-                objectTypeValidatorText:wm.getObjectTypeValidationText,
-                objectNameValidatorText:wm.getObjectNameValidationText,
-                objectCountValidatorText:wm.getObjectCountValidationText,
-                measureUnitMessageState:wm.measureUnitMessageState,
-                descriptionController: wm.descriptionController,
-                objectCountController: wm.objectCountController,
-                objectNameController: wm.objectNameController,
-                objectTypeController: wm.objectTypeController,
-                formObjectTypeKey: wm.formObjectTypeKey,
-                formObjectNameKey: wm.formObjectNameKey,
-                formObjectCountKey: wm.formObjectCountKey,
+          child: ValueListenableBuilder<ObjectTypeData>(
+            valueListenable: wm.objectTypeState,
+            builder: (context, objectType, child) {
+              return UnionStateListenableBuilder<ObjectData>(
+                unionStateListenable: wm.objectsState,
+                builder: (_, object) {
+                  return AppAddOrEditObjectWidget(
+                    saveObjectMeasureUnit: wm.saveObjectMeasureUnit,
+                    addOrEditGift: wm.addObject,
+                    object: object,
+                    objectType: objectType,
+                    loadAgain: loadAgain,
+                    savePhoto: wm.savePhoto,
+                    objectTypeValidatorText: wm.getObjectTypeValidationText,
+                    objectNameValidatorText: wm.getObjectNameValidationText,
+                    objectCountValidatorText: wm.getObjectCountValidationText,
+                    measureUnitMessageState: wm.measureUnitMessageState,
+                    descriptionController: wm.descriptionController,
+                    objectCountController: wm.objectCountController,
+                    objectNameController: wm.objectNameController,
+                    objectTypeController: wm.objectTypeController,
+                    formObjectTypeKey: wm.formObjectTypeKey,
+                    formObjectNameKey: wm.formObjectNameKey,
+                    formObjectCountKey: wm.formObjectCountKey,
+                  );
+                },
+                loadingBuilder: (_, object) => const SizedBox(),
+                failureBuilder: (_, exception, object) => const SizedBox(),
               );
             },
-            loadingBuilder: (_, object) => const SizedBox(),
-            failureBuilder: (_, exception, object) => const SizedBox(),
           ),
         ),
       ),

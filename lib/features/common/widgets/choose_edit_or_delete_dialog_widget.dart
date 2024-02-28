@@ -30,31 +30,41 @@ class ChooseEditOrDeleteDialogWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: editCarScreen,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 16),
-                      child: Text(
-                        'Редактировать ',
-                        style: AppTextStyle.medium12.value,
-                      ),
-                    )),
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  onTap: editCarScreen,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8, bottom: 16),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Редактировать ',
+                          style: AppTextStyle.medium12.value,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 const Divider(
                   color: AppColors.gray,
                   height: 0.2,
                 ),
                 InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: deleteCar,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 16, bottom: 8),
-                      child: Text(
-                        'Удалить ',
-                        style: AppTextStyle.medium12.value.copyWith(color: AppColors.red),
-                      ),
-                    )),
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  onTap: deleteCar,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 16, bottom: 8),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Удалить ',
+                          style: AppTextStyle.medium12.value.copyWith(color: AppColors.red),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

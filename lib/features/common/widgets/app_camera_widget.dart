@@ -92,42 +92,40 @@ class _AppCameraWidgetState extends State<AppCameraWidget> {
         SizedBox(
           height: 117,
           width: 117,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(70),
-            child: /*DecoratedBox(
-              decoration: const BoxDecoration(
-                color: Colors.black,
-              ),
-              child:*/
-                Center(
-              child: (photo == null || photo!.isEmpty)
-                  ? SizedBox(
-                      height: 137,
-                      width: 137,
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(70),
-                          child: DecoratedBox(
-                            decoration: const BoxDecoration(
-                              color: Colors.black,
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Место для фото',
-                                textAlign: TextAlign.center,
-                                style: AppTextStyle.medium16.value.copyWith(color: AppColors.white),
+          child:    InkWell(highlightColor: Colors.transparent, splashColor: Colors.transparent, onTap: showOptions,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(70),
+              child:
+                  Center(
+                child: (photo == null || photo!.isEmpty)
+                    ? SizedBox(
+                        height: 137,
+                        width: 137,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(70),
+                            child: DecoratedBox(
+                              decoration: const BoxDecoration(
+                                color: Colors.black,
                               ),
-                            ),
-                          )))
-                  : Image.memory(
-                      photo!,
-                      fit: BoxFit.cover,
-                      height: 137,
-                      width: 137,
-                    ),
+                              child: Center(
+                                child: Text(
+                                  'Место для фото',
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyle.medium16.value.copyWith(color: AppColors.white),
+                                ),
+                              ),
+                            )))
+                    : Image.memory(
+                        photo!,
+                        fit: BoxFit.cover,
+                        height: 137,
+                        width: 137,
+                      ),
+              ),
             ),
           ),
         ),
-        //),
+
         InkWell(highlightColor: Colors.transparent, splashColor: Colors.transparent, onTap: showOptions, child: SvgPicture.asset(SvgIcons.download)),
       ],
     );

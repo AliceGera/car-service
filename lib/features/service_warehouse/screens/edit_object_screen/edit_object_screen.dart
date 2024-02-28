@@ -74,6 +74,7 @@ class EditObjectScreen extends ElementaryWidget<IEditObjectScreenWidgetModel> {
                 object: object.objects.first,
                 loadAgain: loadAgain,
                 savePhoto: wm.savePhoto,
+                objectType: object.objectType,
                 objectTypeValidatorText: wm.getObjectTypeValidationText,
                 objectNameValidatorText: wm.getObjectNameValidationText,
                 objectCountValidatorText: wm.getObjectCountValidationText,

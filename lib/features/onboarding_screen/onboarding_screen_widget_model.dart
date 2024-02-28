@@ -1,3 +1,4 @@
+import 'package:car_service/assets/constants/app_constants.dart';
 import 'package:car_service/features/app/di/app_scope.dart';
 import 'package:car_service/features/navigation/service/router.dart';
 import 'package:car_service/features/onboarding_screen/onboarding_screen.dart';
@@ -6,6 +7,7 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 OnboardingScreenWidgetModel onboardingScreenWidgetModelFactory(
   BuildContext context,
@@ -38,7 +40,7 @@ class OnboardingScreenWidgetModel extends WidgetModel<OnboardingScreen, Onboardi
 
   @override
   void openTemp() {
-    router.push(TempRouter());
+    router.replace(TempRouter());
   }
 
   @override
@@ -50,9 +52,32 @@ class OnboardingScreenWidgetModel extends WidgetModel<OnboardingScreen, Onboardi
   Future<void> finishOnboarding() async {
     await sharedPreferences.setBool('onboardingFinished', true);
   }
+
+  @override
+  Future<void> userAgreementOnTap() async {
+    if (await canLaunchUrl(Uri.parse(AppConstants.userAgreement))) {
+      await launchUrl(Uri.parse(AppConstants.userAgreement));
+    } else {
+      throw 'Could not launch ${AppConstants.userAgreement}';
+    }
+  }
+
+  @override
+  Future<void> privacyPolicyOnTap() async {
+    if (await canLaunchUrl(Uri.parse(AppConstants.urlPrivacyPolicy))) {
+      await launchUrl(Uri.parse(AppConstants.urlPrivacyPolicy));
+    } else {
+      throw 'Could not launch ${AppConstants.urlPrivacyPolicy}';
+    }
+  }
 }
 
 abstract class IOnboardingScreenWidgetModel implements IWidgetModel {
   Future<void> finishOnboarding();
+
   void openTemp();
+
+  void userAgreementOnTap();
+
+  void privacyPolicyOnTap();
 }

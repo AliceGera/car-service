@@ -32,9 +32,13 @@ class SplashScreenWidgetModel extends WidgetModel<SplashScreen, SplashScreenMode
   );
 
   @override
-  Future<void> initWidgetModel() async {
+  void initWidgetModel() {
     super.initWidgetModel();
-    await _navigate();
+    Future<void>.delayed(const Duration(seconds: 10)).whenComplete(() async {
+      await _navigate();
+    });
+
+    /*await*/ /*_navigate();*/
   }
 
   Future<void> _navigate() async {

@@ -10,5 +10,6 @@ class AppColors {
   static  Color backgroundGray = const Color(0xFFFAFAFA);
   static const Color darkGray = Color(0xff626262);
   static const Color red = Color(0xffEE6562);
+  static const Color splashColor = Color(0xff011166);
   AppColors._();
 }

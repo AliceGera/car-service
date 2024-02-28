@@ -120,10 +120,13 @@ class _OnboardingScreenState extends State<OnboardingScreenBody> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Условия использования',
-                      textAlign: TextAlign.center,
-                      style: AppTextStyle.light10.value.copyWith(color: AppColors.darkGray),
+                    InkWell(
+                      onTap: widget.wm.userAgreementOnTap,
+                      child: Text(
+                        'Условия использования',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyle.light10.value.copyWith(color: AppColors.darkGray),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -133,10 +136,13 @@ class _OnboardingScreenState extends State<OnboardingScreenBody> {
                         width: 1,
                       ),
                     ),
-                    Text(
-                      'Политика конфиденциальности',
-                      textAlign: TextAlign.center,
-                      style: AppTextStyle.light10.value.copyWith(color: AppColors.darkGray),
+                    InkWell(
+                      onTap: widget.wm.privacyPolicyOnTap,
+                      child: Text(
+                        'Политика конфиденциальности',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyle.light10.value.copyWith(color: AppColors.darkGray),
+                      ),
                     ),
                   ],
                 ),

@@ -1,3 +1,4 @@
+import 'package:car_service/assets/constants/app_constants.dart';
 import 'package:car_service/features/app/di/app_scope.dart';
 import 'package:car_service/features/navigation/service/router.dart';
 import 'package:car_service/features/settings/screens/settings_screen/settings_screen.dart';
@@ -44,12 +45,20 @@ class SettingsScreenWidgetModel extends WidgetModel<SettingsScreen, SettingsScre
   }
 
   @override
-  Future<void> onTap() async {
-    const url = 'https://flutter.dev';
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
+  Future<void> userAgreementOnTap() async {
+    if (await canLaunchUrl(Uri.parse(AppConstants.userAgreement))) {
+      await launchUrl(Uri.parse(AppConstants.userAgreement));
     } else {
-      throw 'Could not launch $url';
+      throw 'Could not launch ${AppConstants.userAgreement}';
+    }
+  }
+
+  @override
+  Future<void> privacyPolicyOnTap() async {
+    if (await canLaunchUrl(Uri.parse(AppConstants.urlPrivacyPolicy))) {
+      await launchUrl(Uri.parse(AppConstants.urlPrivacyPolicy));
+    } else {
+      throw 'Could not launch ${AppConstants.urlPrivacyPolicy}';
     }
   }
 
@@ -61,12 +70,15 @@ class SettingsScreenWidgetModel extends WidgetModel<SettingsScreen, SettingsScre
       inAppReview.requestReview();
     }
   }
+
 }
 
 abstract class ISettingsScreenWidgetModel implements IWidgetModel {
   void closeScreen() ;
 
-  void onTap();
+  void userAgreementOnTap();
+
+  void privacyPolicyOnTap();
 
   void onTapAppReview() ;
 }

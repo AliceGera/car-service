@@ -2,6 +2,7 @@ import 'package:car_service/assets/colors/app_colors.dart';
 import 'package:car_service/assets/res/svg_icons.dart';
 import 'package:car_service/assets/text/text_style.dart';
 import 'package:car_service/features/common/domain/data/object/object_data.dart';
+import 'package:car_service/features/common/domain/data/objectTypes/object_type_data.dart';
 import 'package:car_service/features/common/widgets/app_button_widget.dart';
 import 'package:car_service/features/common/widgets/app_camera_widget.dart';
 import 'package:car_service/features/common/widgets/app_dropdown.dart';
@@ -17,6 +18,7 @@ class AppAddOrEditObjectWidget extends StatelessWidget {
   final TextEditingController? objectCountController;
   final TextEditingController? descriptionController;
   final ObjectData object;
+  final ObjectTypeData? objectType;
   final VoidCallback loadAgain;
   final bool isEdit;
   void Function(Uint8List photo) savePhoto;
@@ -56,6 +58,7 @@ class AppAddOrEditObjectWidget extends StatelessWidget {
     super.key,
     this.rateOnTap,
     this.closeScreen,
+    this.objectType,
   });
 
   final List<String> measureUnit = [
@@ -118,7 +121,7 @@ class AppAddOrEditObjectWidget extends StatelessWidget {
                     children: [
                       Expanded(
                         child: AppTextFieldWidget(
-                          text: 'Колличество',
+                          text: 'Количество',
                           controller: objectCountController,
                           isPrice: true,
                           validatorText: objectCountValidatorText,
@@ -139,7 +142,8 @@ class AppAddOrEditObjectWidget extends StatelessWidget {
                               text: object.measureUnit.isEmpty ? '' : 'Ед. измерения',
                               selectedValueText: saveObjectMeasureUnit,
                               colorBorder: measureUnitMessage != null ? Colors.red : AppColors.gray,
-                              isEdit: true,
+                              isEdit: isEdit,
+
                             );
                           },
                           valueListenable: measureUnitMessageState,
@@ -161,23 +165,34 @@ class AppAddOrEditObjectWidget extends StatelessWidget {
           const SizedBox(height: 20),
           AppButtonWidget(
             title: 'Сохранить',
-            onPressed: (object.objectName.isNotEmpty && object.objectCount.isNotEmpty && object.measureUnit != null)
+            onPressed: (objectType?.objectTypeName.isNotEmpty == true &&
+                    object.objectName.isNotEmpty &&
+                    object.objectCount.isNotEmpty &&
+                    object.measureUnit.isNotEmpty)
                 ? () async {
                     await addOrEditGift();
                     loadAgain.call();
                   }
                 : null,
-            color: (object.objectName.isNotEmpty && object.objectCount.isNotEmpty && object.measureUnit != null) ? AppColors.prime : AppColors.white,
-            textColor: (object.objectName.isNotEmpty && object.objectCount.isNotEmpty && object.measureUnit != null) ? Colors.white : AppColors.darkGray,
-            borderColor: (object.objectName.isNotEmpty && object.objectCount.isNotEmpty && object.measureUnit != null) ? AppColors.prime : Colors.black,
+            color: (objectType?.objectTypeName.isNotEmpty == true &&
+                    object.objectName.isNotEmpty &&
+                    object.objectCount.isNotEmpty &&
+                    object.measureUnit.isNotEmpty)
+                ? AppColors.prime
+                : AppColors.white,
+            textColor: (objectType?.objectTypeName.isNotEmpty == true &&
+                    object.objectName.isNotEmpty &&
+                    object.objectCount.isNotEmpty &&
+                    object.measureUnit.isNotEmpty)
+                ? Colors.white
+                : AppColors.darkGray,
+            borderColor: (objectType?.objectTypeName.isNotEmpty == true &&
+                    object.objectName.isNotEmpty &&
+                    object.objectCount.isNotEmpty &&
+                    object.measureUnit.isNotEmpty)
+                ? AppColors.prime
+                : Colors.black,
           ),
-          /*AppButtonWidget(
-            title: 'Сохранить',
-            onPressed: () async {
-              await addOrEditGift();
-              loadAgain.call();
-            },
-          ),*/
         ],
       ),
     );

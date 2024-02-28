@@ -32,4 +32,5 @@ class SvgIcons {
   static const String onboarding2 = 'assets/icons/onboarding2.svg';
   static const String onboarding3 = 'assets/icons/onboarding3.svg';
   static const String serviceTime = 'assets/icons/service_time.svg';
+  static const String splashCar = 'assets/icons/splash_car.svg';
 }

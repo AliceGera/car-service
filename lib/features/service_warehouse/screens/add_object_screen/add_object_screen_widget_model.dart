@@ -1,5 +1,6 @@
 import 'package:car_service/features/app/di/app_scope.dart';
 import 'package:car_service/features/common/domain/data/object/object_data.dart';
+import 'package:car_service/features/common/domain/data/objectTypes/object_type_data.dart';
 import 'package:car_service/features/navigation/service/router.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/foundation.dart';
@@ -31,6 +32,7 @@ class AddObjectWidgetModel extends WidgetModel<AddObjectScreen, AddObjectScreenM
   );
 
   final _objectsState = UnionStateNotifier<ObjectData>(ObjectData.init());
+  final _objectTypeState = ValueNotifier<ObjectTypeData>(ObjectTypeData.init());
   final TextEditingController _objectTypeController = TextEditingController();
   final TextEditingController _objectNameController = TextEditingController();
   final TextEditingController _objectCountController = TextEditingController();
@@ -55,6 +57,7 @@ class AddObjectWidgetModel extends WidgetModel<AddObjectScreen, AddObjectScreenM
         _formObjectTypeKey.currentState?.validate();
       }
       model.objectTypeName = _objectTypeController.text;
+      objectTypeState.value = model.objectType;
     });
     _objectNameController.addListener(() {
       if (_objectNameValidationText != null && _objectNameController.text.isNotEmpty) {
@@ -62,6 +65,7 @@ class AddObjectWidgetModel extends WidgetModel<AddObjectScreen, AddObjectScreenM
         _formObjectNameKey.currentState?.validate();
       }
       model.objectName = _objectNameController.text;
+      _objectsState.content(model.object);
     });
     _objectCountController.addListener(() {
       if (_objectCountValidationText != null && _objectCountController.text.isNotEmpty) {
@@ -69,6 +73,7 @@ class AddObjectWidgetModel extends WidgetModel<AddObjectScreen, AddObjectScreenM
         _formObjectCountKey.currentState?.validate();
       }
       model.objectCount = _objectCountController.text;
+      _objectsState.content(model.object);
     });
     _descriptionController.addListener(() {
       if (_descriptionValidationText != null && _descriptionController.text.isNotEmpty) {
@@ -76,6 +81,7 @@ class AddObjectWidgetModel extends WidgetModel<AddObjectScreen, AddObjectScreenM
         _formDescriptionKey.currentState?.validate();
       }
       model.description = _descriptionController.text;
+      _objectsState.content(model.object);
     });
     super.initWidgetModel();
   }
@@ -178,6 +184,10 @@ class AddObjectWidgetModel extends WidgetModel<AddObjectScreen, AddObjectScreenM
 
   @override
   UnionStateNotifier<ObjectData> get objectsState => _objectsState;
+
+  @override
+  ValueNotifier<ObjectTypeData> get objectTypeState => _objectTypeState;
+
   @override
   ValueNotifier<String?> get measureUnitMessageState => _measureUnitMessageState;
 
@@ -186,12 +196,15 @@ class AddObjectWidgetModel extends WidgetModel<AddObjectScreen, AddObjectScreenM
 abstract class IAddObjectWidgetModel implements IWidgetModel {
   Future<void> addObject();
 
-  void closeScreen() {}
+  void closeScreen();
 
   void savePhoto(Uint8List photo);
 
   void saveObjectMeasureUnit(String carModel);
+
   ValueNotifier<String?> get measureUnitMessageState;
+
+  ValueNotifier<ObjectTypeData> get objectTypeState;
 
   UnionStateNotifier<ObjectData> get objectsState;
 

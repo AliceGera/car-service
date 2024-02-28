@@ -33,7 +33,6 @@ class EditObjectScreenWidgetModel extends WidgetModel<EditObjectScreen, EditObje
 
   final _objectTypeWithObjectsState = UnionStateNotifier<ObjectTypeWithObjectsData>(ObjectTypeWithObjectsData.init().copyWith(objects: [ObjectData.init()]));
   final _measureUnitMessageState = ValueNotifier<String?>(null);
-
   final TextEditingController _objectTypeController = TextEditingController();
   final TextEditingController _objectNameController = TextEditingController();
   final TextEditingController _objectCountController = TextEditingController();
@@ -59,6 +58,8 @@ class EditObjectScreenWidgetModel extends WidgetModel<EditObjectScreen, EditObje
         _formObjectTypeKey.currentState?.validate();
       }
       model.objectTypeName = _objectTypeController.text;
+      _objectTypeWithObjectsState.content(model.objectTypeWithObjects);
+      _objectTypeWithObjectsState.notifyListeners();
     });
     _objectNameController.addListener(() {
       if (_objectNameValidationText != null && _objectNameController.text.isNotEmpty) {
@@ -66,6 +67,8 @@ class EditObjectScreenWidgetModel extends WidgetModel<EditObjectScreen, EditObje
         _formObjectNameKey.currentState?.validate();
       }
       model.objectName = _objectNameController.text;
+      _objectTypeWithObjectsState.content(model.objectTypeWithObjects);
+      _objectTypeWithObjectsState.notifyListeners();
     });
     _objectCountController.addListener(() {
       if (_objectCountValidationText != null && _objectCountController.text.isNotEmpty) {
@@ -73,6 +76,8 @@ class EditObjectScreenWidgetModel extends WidgetModel<EditObjectScreen, EditObje
         _formObjectCountKey.currentState?.validate();
       }
       model.objectCount = _objectCountController.text;
+      _objectTypeWithObjectsState.content(model.objectTypeWithObjects);
+      _objectTypeWithObjectsState.notifyListeners();
     });
     _descriptionController.addListener(() {
       if (_descriptionValidationText != null && _descriptionController.text.isNotEmpty) {
@@ -80,6 +85,8 @@ class EditObjectScreenWidgetModel extends WidgetModel<EditObjectScreen, EditObje
         _formDescriptionKey.currentState?.validate();
       }
       model.description = _descriptionController.text;
+      _objectTypeWithObjectsState.content(model.objectTypeWithObjects);
+      _objectTypeWithObjectsState.notifyListeners();
     });
     if (args != null) {
       _objectTypeController.text = args.objectType.objectTypeName;
@@ -88,14 +95,12 @@ class EditObjectScreenWidgetModel extends WidgetModel<EditObjectScreen, EditObje
       _descriptionController.text = args.object.description;
       model
         ..photo = args.object.photo
-        ..objectTypeName = args.objectType.objectTypeName
-        ..description = args.object.description
-        ..objectCount = args.object.objectCount
         ..measureUnit = args.object.measureUnit
         ..objectId = args.object.id
         ..objectTypeId = args.objectType.objectTypeId;
 
       _objectTypeWithObjectsState.content(model.objectTypeWithObjects);
+      _objectTypeWithObjectsState.notifyListeners();
     }
     super.initWidgetModel();
   }

@@ -3,8 +3,8 @@
 # or disable fullscreen (and check Info.plist just in case)
 flutter_native_splash:
   fullscreen: true
-  image: assets/splash/splash.png
-  image_dark: assets/splash/splash.png
+  image: assets/splash/background.png
+  image_dark: assets/splash/background.png
   android_12:
     color: "#AFD1FF"
 #    icon_background_color: "#FFFFFF"

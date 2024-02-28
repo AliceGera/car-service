@@ -28,12 +28,12 @@ class SettingsScreen extends ElementaryWidget<ISettingsScreenWidgetModel> {
           CommonWidget(
             title: 'Политика конфиденциальности',
             icon: SvgIcons.security,
-            onTap: wm.onTap,
+            onTap: wm.privacyPolicyOnTap,
           ),
           CommonWidget(
             title: 'Пользовательское соглашение',
             icon: SvgIcons.userAgreement,
-            onTap: wm.onTap,
+            onTap: wm.userAgreementOnTap,
           ),
           const Divider(color: AppColors.white, thickness: 0.2),
           CommonWidget(
